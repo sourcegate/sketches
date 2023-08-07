@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Disables scrolling */
+        }
+
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100vw;
+            height: 100vh;
+            align-content: flex-start;
+            justify-content: space-around;
+            position: relative;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .cell {
+            width: 2vw;
+            height: 2vh;
+            transition: background-color 2s ease;
+        }
+
+   .typed-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: calc(3vh + 1vw); /* Adjust as needed */
+    max-width: 80vw; /* Limit the width to 80% of the viewport */
+    padding: 1em; /* Add some space around the text */
+    line-height: 1.2; /* Adjust as needed */
+    text-align: center;
+    color: #fff;
+    mix-blend-mode: exclusion;
+    font-weight: 900;
+    word-wrap: break-word; /* Ensures text will wrap and not overflow */
+}
+
+@media (max-width: 480px) { /* Adjust for smaller screens, like the iPhone */
+    .typed-text {
+        font-size: calc(3vh + 1vw); /* Adjust as needed */
+    }
+}
+        .typed-cursor{
+            opacity: 1;
+            animation: typedjsBlink 0.7s infinite;
+            -webkit-animation: typedjsBlink 0.7s infinite;
+            animation: typedjsBlink 0.7s infinite;
+        }
+        @keyframes typedjsBlink{
+            50% { opacity: 0.0; }
+        }
+        @-webkit-keyframes typedjsBlink{
+            0% { opacity: 1; }
+            50% { opacity: 0.0; }
+            100% { opacity: 1; }
+        }
+        .typed-fade-out{
+            opacity: 0;
+            transition: opacity .25s;
+            -webkit-animation: 0;
+            animation: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="typed-text" class="typed-text"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+    <script>
+        for(let i=0; i<2500; i++) {
+            document.body.innerHTML += '<div class="cell"></div>';
+        }
+
+        let baseColors = ["#FFC312", "#C4E538", "#12CBC4", "#FDA7DF", "#ED4C67", "#F79F1F", "#A3CB38", "#1289A7", "#D980FA", "#B53471", "#EE5A24", "#009432", "#0652DD", "#9980FA", "#833471"]; 
+
+        function getRandomColor() {
+            return baseColors[Math.floor(Math.random() * baseColors.length)];
+        }
+
+        function setColorToCells() {
+            let cells = document.querySelectorAll(".cell");
+            cells.forEach(cell => {
+                cell.style.backgroundColor = getRandomColor();
+            });
+        }
+
+        setColorToCells();
+
+        setInterval(setColorToCells, 2000);
+
+        let messages = ["Are you paying attention?", "What if I told you the Matrix was real?", "You need to take the red Pill"];
+        
+        var typed = new Typed('#typed-text', {
+            strings: messages,
+            typeSpeed: 50,
+            backSpeed: 50,
+            backDelay: 100,
+            fadeOut: true,
+            loop: true,
+        });
+    </script>
+</body>
+</html>

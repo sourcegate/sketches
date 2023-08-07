@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+      #video-background {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        z-index: 999;
+        mix-blend-mode: difference;/* Place it behind the canvas */
+      }
+      #video-container {
+        overflow: hidden;
+      }
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="video-container">
+      <video id="video-background" autoplay loop muted>
+        <source src="color.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <script>
+      let bgColor;
+      let gridRows, gridCols;
+      let cellSize = 15;
+      let unixTimeStr;
+      let offsets = [];
+      let blendModes;
+      let blendModeIndex = 0;
+
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        bgColor = color(0);
+        gridRows = Math.ceil(height / cellSize);
+        gridCols = Math.ceil(width / cellSize);
+        textFont('IBM Plex Mono');
+        textSize(cellSize);
+
+        // Define blendModes array inside setup function
+        blendModes = [BLEND, ADD, DARKEST, LIGHTEST, DIFFERENCE, EXCLUSION, MULTIPLY, SCREEN, REPLACE, OVERLAY, HARD_LIGHT, SOFT_LIGHT, DODGE, BURN];
+
+        // Initialize offsets for easing animation
+        for (let row = 0; row < gridRows; row++) {
+          for (let col = 0; col < gridCols; col++) {
+            offsets.push(random());
+          }
+        }
+      }
+
+      function draw() {
+        background(bgColor);
+        unixTimeStr = String(Math.floor(Date.now() / 10000));
+
+        fill(0, 255, 0);
+
+        // Draw the grid of numbers
+        for (let row = 0; row < gridRows; row++) {
+          for (let col = 0; col < gridCols; col++) {
+            let x = col * cellSize;
+            let y = row * cellSize + cellSize;
+            let index = (row + col + Math.floor(frameCount * offsets[row * gridCols + col])) % unixTimeStr.length;
+            drawNumber(x, y, unixTimeStr.charAt(index));
+          }
+        }
+
+        // Display Unix time in the center with a larger font size
+        fill(255); // Set text color to white
+        textSize(130);
+        textAlign(CENTER, CENTER);
+        text(unixTimeStr, width / 2, height / 2);
+        textSize(cellSize);
+      }
+
+      function drawNumber(x, y, num) {
+        text(num, x, y);
+      }
+
+      function keyPressed() {
+        if (key === 'C' || key === 'c') {
+          bgColor = color(random(255), random(255), random(255));
+        }
+
+        if (key === 'B' || key === 'b') {
+          blendModeIndex = (blendModeIndex + 1) % blendModes.length; // Cycle through blending modes
+        }
+      }
+    </script>
+  </body>
+</html>

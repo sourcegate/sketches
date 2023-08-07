@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Trending GIFs</title>
+
+  <style>
+    body {
+      margin: 0;
+    }
+    
+   .gif-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 3fr));
+  grid-auto-rows: 100px;
+  gap: 5px;
+  padding: 10px;
+} 
+
+.gif-card {
+  width: 100%;
+  height: 100%;
+}
+
+img {
+  width: 100%; 
+  height: 100%;
+  object-fit: cover;
+}
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="gif-grid">
+
+    <!-- GIF cards added dynamically via JS -->
+
+  </div>
+
+  <script>
+
+    // Fetch trending GIFs
+    fetch('https://api.giphy.com/v1/gifs/trending?api_key=wyFL03zc1I1MGGeX7d828LhWQz5d0r55&limit=700')
+      .then(response => response.json())
+      .then(data => {
+
+        // Get GIF grid element
+        const gifGrid = document.querySelector('.gif-grid');
+
+        // Add card for each GIF 
+        data.data.forEach(gif => {
+          
+          // Create card and image elements  
+          const gifCard = document.createElement('div');
+          gifCard.classList.add('gif-card');
+          
+          const gifImg = document.createElement('img');
+          gifImg.src = gif.images.original.url;
+          
+          // Add image to card
+          gifCard.appendChild(gifImg);
+          
+          // Add card to grid
+          gifGrid.appendChild(gifCard);
+          
+        });
+        
+        // Scroll cards horizontally  
+        let scrollPos = 0;
+        const scrollSpeed = 1;
+        
+        function scrollHorizontally() {
+          scrollPos += scrollSpeed;
+          gifGrid.scrollLeft = scrollPos;
+          requestAnimationFrame(scrollHorizontally);
+        }
+        
+        requestAnimationFrame(scrollHorizontally);
+        
+      });
+
+
+    // Scroll 1 pixel every 10ms
+let scrollPos = 0;
+setInterval(() => {
+  scrollPos++;  
+  gifGrid.scrollLeft = scrollPos;
+}, 1000);
+      
+  </script>
+
+</body>
+</html>

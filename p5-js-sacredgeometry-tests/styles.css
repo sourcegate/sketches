@@ -1,0 +1,17 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+}
+
+#gui-container .dg.main {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+#startButton {
+  z-index: 1001; /* Ensure it's above other elements, including DAT.gui */
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  </head>
+  <body>
+    <script>
+      let bgColor;
+      let shapes = [];
+
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        bgColor = color(random(255), random(255), random(255));
+        setInterval(addShape, 2000); // Add a new shape every 2 seconds
+      }
+
+      function draw() {
+        background(bgColor);
+        translate(width / 2, height / 2);
+        for (let i = 0; i < shapes.length; i++) {
+          const shape = shapes[i];
+          push();
+          let rotationSpeed = (i % 2 === 0) ? 0.01 : -0.01; // Alternate between clockwise and counterclockwise
+          rotate(shape.rotation + frameCount * rotationSpeed);
+          scale(shape.size);
+
+          // Draw the shape with chromatic aberration effect
+          shape.pattern();
+          
+          pop();
+        }
+      }
+
+      function drawShapeWithAberration(patternFunc) {
+        // Red channel
+        push();
+        translate(2, 0);
+        patternFunc(color(255, 0, 0));
+        pop();
+
+        // Green channel
+        push();
+        translate(0, 2);
+        patternFunc(color(0, 255, 0));
+        pop();
+
+        // Blue channel
+        push();
+        translate(-2, 0);
+        patternFunc(color(0, 0, 255));
+        pop();
+      }
+
+      function pattern1(col) {
+        stroke(col);
+        noFill();
+        beginShape();
+        for (let a = 0; a < TWO_PI; a += PI / 5) {
+          let r = 200;
+          let x = r * cos(a);
+          let y = r * sin(a);
+          vertex(x, y);
+        }
+        endShape(CLOSE);
+      }
+
+      function pattern2(col) {
+        stroke(col);
+        noFill();
+        ellipse(0, 0, 200);
+        line(-100, 0, 100, 0);
+        line(0, -100, 0, 100);
+      }
+
+      function pattern3(col) {
+        stroke(col);
+        noFill();
+        for (let a = 0; a < TWO_PI; a += PI / 3) {
+          let x = 100 * cos(a);
+          let y = 100 * sin(a);
+          line(0, 0, x, y);
+        }
+      }
+
+      const patterns = [pattern1, pattern2, pattern3];
+
+      function addShape() {
+        shapes.push({
+          rotation: random(TWO_PI),
+          size: random(0, 5),
+          pattern: () => drawShapeWithAberration(random(patterns)),
+        });
+      }
+
+      function keyPressed() {
+        if (key === 'C' || key === 'c') {
+          bgColor = color(random(255), random(255), random(255));
+        }
+      }
+    </script>
+  </body>
+</html>

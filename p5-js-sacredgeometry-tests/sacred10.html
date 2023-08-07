@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  </head>
+  <body>
+    <script>
+      let bgColor;
+      let gridRows = 50;
+      let gridCols = 100;
+      let cellSize;
+
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        bgColor = color(random(255), random(255), random(255));
+        cellSize = min(width / gridCols, height / gridRows);
+        textFont('monospace'); // Set the font to monospace
+        textSize(32); // Set the font size
+      }
+
+      function draw() {
+        background(bgColor);
+        let unixTime = Math.floor(Date.now() / 5000); // Dividing by 5000 for slower change
+
+        // Calculate the interpolation factor for smooth fading
+        let factor = (Date.now() / 5000) % 1;
+
+        // Draw the grid of shapes
+        for (let row = 0; row < gridRows; row++) {
+          for (let col = 0; col < gridCols; col++) {
+            let x = col * cellSize + cellSize / 2;
+            let y = row * cellSize + cellSize / 2;
+            let toggle = (unixTime + row + col) % 2;
+            drawShape(x, y, toggle, factor);
+          }
+        }
+
+        // Display Unix time in the center
+        fill(255);
+        textAlign(CENTER, CENTER);
+        text(Math.floor(Date.now() / 1000), width / 2, height / 2);
+      }
+
+      function drawShape(x, y, toggle, factor) {
+        let size = cellSize * 0.3;
+        fill(random(255), random(255), random(255));
+        noStroke();
+        push();
+        translate(x, y);
+        beginShape();
+        for (let a = 0; a < TWO_PI; a += PI / 4) {
+          let r = size;
+          if (toggle === 0) {
+            r = lerp(r, 0, factor); // Fading to circle
+          } else {
+            r = lerp(0, r, factor); // Fading to square
+          }
+          let x = r * cos(a);
+          let y = r * sin(a);
+          vertex(x, y);
+        }
+        endShape(CLOSE);
+        pop();
+      }
+
+      function keyPressed() {
+        if (key === 'C' || key === 'c') {
+          bgColor = color(random(255), random(255), random(255));
+        }
+      }
+    </script>
+  </body>
+</html>

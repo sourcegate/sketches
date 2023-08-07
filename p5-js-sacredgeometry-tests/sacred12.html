@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  </head>
+  <body>
+    <script>
+      let bgColor;
+      let gridRows, gridCols;
+      let cellSize = 15; // Smaller cell size for a tighter grid
+      let unixTimeStr;
+
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        bgColor = color(0); // Dark background color
+        gridRows = Math.ceil(height / cellSize); // Calculate rows to fill the screen
+        gridCols = Math.ceil(width / cellSize);  // Calculate columns to fill the screen
+        textFont('IBM Plex Mono', 'bold'); // Set the font to IBM Plex Mono bold
+        textSize(cellSize); // Set the font size to match the cell size
+      }
+
+      function draw() {
+        background(bgColor);
+        unixTimeStr = String(Math.floor(Date.now() / 1000)); // Unix time as a string
+
+        fill(0, 255, 0); // Monochromatic green color
+
+        // Draw the grid of numbers
+        for (let row = 0; row < gridRows; row++) {
+          for (let col = 0; col < gridCols; col++) {
+            let x = col * cellSize;
+            let y = row * cellSize;
+            let index = (row + col + frameCount) % unixTimeStr.length; // Index for animating numbers
+            drawNumber(x, y, unixTimeStr.charAt(index));
+          }
+        }
+
+        // Display Unix time in the center with a larger font size
+        textSize(130); // Larger font size
+        textAlign(CENTER, CENTER);
+        text(unixTimeStr, width / 2, height / 2);
+        textSize(cellSize); // Reset the font size
+      }
+
+      function drawNumber(x, y, num) {
+        text(num, x, y);
+      }
+
+      function keyPressed() {
+        if (key === 'C' || key === 'c') {
+          bgColor = color(random(255), random(255), random(255));
+        }
+      }
+    </script>
+  </body>
+</html>

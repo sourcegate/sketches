@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Experiments</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  </head>
+  <body class="bg-gray-100 p-8">
+    <h1 class="text-2xl font-bold mb-4">My Sacred Geometry Experiments</h1>
+    <div id="experiments-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+    <script>
+      // Define the total number of experiments
+      const totalExperiments = 14;
+
+      // Get the experiments list element
+      const experimentsList = document.getElementById('experiments-list');
+
+      // Loop through the experiments and create links
+      for (let i = 1; i <= totalExperiments; i++) {
+        const filename = `sacred${i}.html`;
+
+        // Fetch the content of the HTML file
+        fetch(filename)
+          .then(response => response.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const titleElement = doc.querySelector('title');
+
+            // Use the title if available, otherwise use "Untitled filename.html"
+            const title = titleElement ? titleElement.innerText : `Untitled ${filename}`;
+
+            // Create card with Tailwind CSS
+            const card = document.createElement('div');
+            card.className = 'p-4 bg-white shadow rounded';
+
+            const link = document.createElement('a');
+            link.href = filename;
+            link.innerText = title;
+            link.className = 'flex items-center text-blue-600 hover:text-blue-800';
+
+            const icon = document.createElement('span');
+            icon.className = 'material-icons mr-2';
+            icon.innerText = 'link';
+
+            link.appendChild(icon);
+            card.appendChild(link);
+            experimentsList.appendChild(card);
+          })
+          .catch(error => console.error('An error occurred:', error));
+      }
+
+  
+       console.log(`%c
+  ██████╗ ███████╗
+  ██╔══██╗██╔════╝
+  ██████╔╝███████╗
+  ██╔═══╝ ╚════██║
+  ██║     ███████║
+  ╚═╝     ╚══════╝
+
+  Connect with me on Instagram: https://www.instagram.com/sourcegatekeeper/
+  `, "font-family:monospace");
+      
+    </script>
+
+    <!-- Include Material Icons for the link icon -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </body>
+</html>
