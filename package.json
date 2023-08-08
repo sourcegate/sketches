@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "live-server",
-    "predeploy": "node generate-directory-listing.js"
+    "predeploy": "node generate-directory-listing.js",
+    "build": "npm run predeploy"
   },
   "devDependencies": {
     "live-server": "^1.2.2",
