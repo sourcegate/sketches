@@ -13,6 +13,7 @@ const exclusions = [
   "package-lock.json",
   "package.json",
   "dist",
+  ".vercel",
 ];
 
 // Read the contents of the root directory
