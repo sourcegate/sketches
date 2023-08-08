@@ -1,13 +1,8 @@
 {
   "scripts": {
-    "start": "live-server",
-    "build": "vite build",
-    "preview": "vite preview --port 8080"
+    "start": "live-server"
   },
   "devDependencies": {
     "live-server": "^1.2.2"
-  },
-  "dependencies": {
-    "vite": "^4.4.9"
   }
 }
