@@ -1,56 +1,67 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>CHAMPS 8.5.23 </title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-    #startButtonContainer {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 20px;
-      border-radius: 10px;
-      color: white;
-      font-size: 18px;
-      font-family: Arial, sans-serif;
-    }
-    #startButton {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    #message {
-      margin-top: 10px;
-      font-size: 14px;
-    }
+  <head>
+    <base href="/threeJS-microphone-vaporwave" />
+    <title>CHAMPS 8.5.23</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      #startButtonContainer {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        font-size: 18px;
+        font-family: Arial, sans-serif;
+      }
+      #startButton {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #message {
+        margin-top: 10px;
+        font-size: 14px;
+      }
 
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
-    
-    .fade-out {
-      animation: fadeOut 1s ease-out forwards;
-    }
-  </style>
-</head>
-<body>
-  <div id="startButtonContainer">
-    <button id="startButton">Start</button>
-    <div id="message">Click start to start your experience. Make sure to allow Microphone access.</div>
-  </div>
-  <script type="module" src="https://threejs.org/build/three.module.js"></script>
-  <script src="https://cdn.rawgit.com/dataarts/dat.gui/v0.7.6/build/dat.gui.min.js"></script>
-  <script type="module" src="main.js"></script>
-</body>
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      .fade-out {
+        animation: fadeOut 1s ease-out forwards;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="startButtonContainer">
+      <button id="startButton">Start</button>
+      <div id="message">
+        Click start to start your experience. Make sure to allow Microphone
+        access.
+      </div>
+    </div>
+    <script
+      type="module"
+      src="https://threejs.org/build/three.module.js"
+    ></script>
+    <script src="https://cdn.rawgit.com/dataarts/dat.gui/v0.7.6/build/dat.gui.min.js"></script>
+    <script type="module" src="main.js"></script>
+  </body>
 </html>
