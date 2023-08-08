@@ -1,17 +1,4 @@
 {
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node",
-      "config": {
-        "build": {
-          "env": {
-            "NODE_ENV": "production"
-          }
-        }
-      }
-    }
-  ],
   "build": {
     "env": {
       "NODE_ENV": "production"
@@ -20,5 +7,5 @@
   "scripts": {
     "build": "npm run predeploy"
   },
-  "routes": [{ "src": "/$", "dest": "/index.html" }]
+  "routes": [{ "src": "/(.*)", "dest": "/$1" }]
 }
