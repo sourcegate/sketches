@@ -1,52 +1,71 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>blue 🎾</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background-color: #0f0f0f;
-    }
-
-    #vibeText {
-      position: fixed;
-      /* Updated from absolute to fixed */
-      top: 50%;
-      left: 50%;
-      word-spacing: -70px;
-      transform: translate(-50%, -50%);
-      font-family: 'Roboto Mono', monospace;
-
-      font-weight: bold;
-      font-size: 175px;
-      color: white;
-      white-space: nowrap;
-      overflow: hidden;
-      animation: scroll linear 20s infinite;
-      mix-blend-mode: difference;
-      pointer-events: none;
-      text-transform: uppercase;
-    }
-
-    @keyframes scroll {
-      0% {
-        transform: translateX(100vw) translate(-50%, -50%);
+  <head>
+    <title>blue 🎾</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #0f0f0f;
       }
 
-      100% {
-        transform: translateX(-100vw) translate(-50%, -50%);
+      #vibeText {
+        position: fixed;
+        /* Updated from absolute to fixed */
+        top: 50%;
+        left: 50%;
+        word-spacing: -70px;
+        transform: translate(-50%, -50%);
+        font-family: "Roboto Mono", monospace;
+
+        font-weight: bold;
+        font-size: 175px;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        animation: scroll linear 20s infinite;
+        mix-blend-mode: difference;
+        pointer-events: none;
+        text-transform: uppercase;
       }
-    }
-  </style>
-</head>
 
-<body>
-  <div id="vibeText">Touch my balls Touch my balls Touch my balls Touch my balls Touch my balls</div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
-  <script src="sketch.js"></script>
-</body>
+      @keyframes scroll {
+        0% {
+          transform: translateX(100vw) translate(-50%, -50%);
+        }
 
+        100% {
+          transform: translateX(-100vw) translate(-50%, -50%);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="vibeText">
+      Touch my balls Touch my balls Touch my balls Touch my balls Touch my balls
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
+    <script src="sketch.js"></script>
+
+    <script>
+      console.log(
+        `%c
+██████╗ ███████╗
+██╔══██╗██╔════╝
+██████╔╝███████╗
+██╔═══╝ ╚════██║
+██║     ███████║
+╚═╝     ╚══════╝
+
+Connect with me on Instagram: https://www.instagram.com/sourcegatekeeper/
+`,
+        "font-family:monospace"
+      );
+    </script>
+  </body>
 </html>
