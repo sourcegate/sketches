@@ -1,111 +1,261 @@
 <!DOCTYPE html>
-<html style="height: 100%;">
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+<html style="height: 100%">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Disables scrolling */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Disables scrolling */
+      }
+
+      body {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100vw;
+        height: 100vh;
+        align-content: flex-start;
+        justify-content: space-around;
+        position: relative;
+        font-family: "Roboto", sans-serif;
+      }
+
+      .cell {
+        width: 2vw;
+        height: 2vh;
+        transition: background-color 2s ease;
+      }
+
+      .typed-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: calc(3vh + 2vw); /* Adjust as needed */
+        max-width: 80vw; /* Limit the width to 80% of the viewport */
+        padding: 1em; /* Add some space around the text */
+        line-height: 1.2; /* Adjust as needed */
+        text-align: center;
+        color: #fff;
+        mix-blend-mode: normal;
+
+        /* mix-blend-mode: normal;
+            mix-blend-mode: multiply;
+            mix-blend-mode: screen;
+            mix-blend-mode: overlay;
+            mix-blend-mode: darken;
+            mix-blend-mode: lighten;
+            mix-blend-mode: color-dodge;
+            mix-blend-mode: color-burn;
+            mix-blend-mode: hard-light;
+            mix-blend-mode: soft-light;
+            mix-blend-mode: difference;
+            mix-blend-mode: exclusion;
+            mix-blend-mode: hue;
+            mix-blend-mode: saturation;
+            mix-blend-mode: color;
+            mix-blend-mode: luminosity; */
+        text-shadow: 0 0 50px #f00606, 0 0 20px #f007077b, 0 0 30px #ffffff,
+          0 0 40px #ffffff;
+        font-weight: 900;
+        word-wrap: break-word; /* Ensures text will wrap and not overflow */
+
+        color: #fff;
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #f07,
+          /* mid-tone color */ 0 0 20px #f07, /* mid-tone color */ 0 0 30px #f07,
+          /* mid-tone color */ 0 0 40px #f00; /* hot core color */
+        z-index: 2;
+        animation: glow 2s ease-in-out infinite;
+      }
+      @keyframes glow {
+        0%,
+        100% {
+          text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #f07,
+            /* mid-tone color */ 0 0 20px #f07,
+            /* mid-tone color */ 0 0 25px #f07,
+            /* mid-tone color */ 0 0 30px #f00; /* hot core color */
         }
 
-        body {
-            display: flex;
-            flex-wrap: wrap;
-            width: 100vw;
-            height: 100vh;
-            align-content: flex-start;
-            justify-content: space-around;
-            position: relative;
-            font-family: 'Roboto', sans-serif;
+        50% {
+          text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #f07,
+            /* mid-tone color */ 0 0 40px #f07,
+            /* mid-tone color */ 0 0 50px #f07,
+            /* mid-tone color */ 0 0 60px #f00; /* hot core color */
         }
+      }
 
-        .cell {
-            width: 2vw;
-            height: 2vh;
-            transition: background-color 2s ease;
+      @media (max-width: 480px) {
+        /* Adjust for smaller screens, like the iPhone */
+        .typed-text {
+          font-size: calc(3vh + 1vw); /* Adjust as needed */
         }
+      }
+      .typed-cursor {
+        opacity: 1;
+        animation: typedjsBlink 0.7s infinite;
+        -webkit-animation: typedjsBlink 0.7s infinite;
+        animation: typedjsBlink 0.7s infinite;
+      }
+      @keyframes typedjsBlink {
+        50% {
+          opacity: 0;
+        }
+      }
+      @-webkit-keyframes typedjsBlink {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      .typed-fade-out {
+        opacity: 0;
+        transition: opacity 2s ease;
+        -webkit-animation: 0;
+        animation: 0;
+      }
 
-   .typed-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: calc(3vh + 1vw); /* Adjust as needed */
-    max-width: 80vw; /* Limit the width to 80% of the viewport */
-    padding: 1em; /* Add some space around the text */
-    line-height: 1.2; /* Adjust as needed */
-    text-align: center;
-    color: #fff;
-    mix-blend-mode: exclusion;
-    font-weight: 900;
-    word-wrap: break-word; /* Ensures text will wrap and not overflow */
-}
+      .background-image {
+        background-image: url("img/rp.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        mix-blend-mode: multiply;
 
-@media (max-width: 480px) { /* Adjust for smaller screens, like the iPhone */
-    .typed-text {
-        font-size: calc(3vh + 1vw); /* Adjust as needed */
-    }
-}
-        .typed-cursor{
-            opacity: 1;
-            animation: typedjsBlink 0.7s infinite;
-            -webkit-animation: typedjsBlink 0.7s infinite;
-            animation: typedjsBlink 0.7s infinite;
+        /* animation: glitchBackground 1s infinite, flickerBackground 0.1s infinite; */
+        z-index: 1;
+      }
+      @keyframes glowing {
+        0% {
+          text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #0ff, 0 0 20px #0ff;
         }
-        @keyframes typedjsBlink{
-            50% { opacity: 0.0; }
+        50% {
+          text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff,
+            0 0 40px #0ff;
         }
-        @-webkit-keyframes typedjsBlink{
-            0% { opacity: 1; }
-            50% { opacity: 0.0; }
-            100% { opacity: 1; }
+        100% {
+          text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #0ff, 0 0 20px #0ff;
         }
-        .typed-fade-out{
-            opacity: 0;
-            transition: opacity .25s;
-            -webkit-animation: 0;
-            animation: 0;
+      }
+
+      @keyframes glitchBackground {
+        2%,
+        64% {
+          transform: translate(2px, 0) skew(0deg);
         }
+        4%,
+        60% {
+          transform: translate(-2px, 0) skew(0deg);
+        }
+        62% {
+          transform: translate(0, 0) skew(5deg);
+        }
+      }
+
+      @keyframes flickerBackground {
+        0%,
+        20%,
+        100% {
+          opacity: 1;
+        }
+        10% {
+          opacity: 0;
+        }
+      }
+
+      body::after {
+        content: "";
+        height: 100%;
+        width: 100%;
+        background: url(img/noisebg.jpg) repeat;
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none; /* so the film grain does not interfere with clicking on elements */
+        z-index: 9999; /* this should be the highest in your webpage */
+        opacity: 0.3; /* you can adjust this value to increase or decrease the visibility of the grain */
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body class="background-image">
     <div id="typed-text" class="typed-text"></div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
     <script>
-        for(let i=0; i<2500; i++) {
-            document.body.innerHTML += '<div class="cell"></div>';
-        }
+      for (let i = 0; i < 2500; i++) {
+        document.body.innerHTML += '<div class="cell"></div>';
+      }
 
-        let baseColors = ["#FFC312", "#C4E538", "#12CBC4", "#FDA7DF", "#ED4C67", "#F79F1F", "#A3CB38", "#1289A7", "#D980FA", "#B53471", "#EE5A24", "#009432", "#0652DD", "#9980FA", "#833471"]; 
+      let baseColors = [
+        "#FFC312",
+        "#C4E538",
+        "#12CBC4",
+        "#FDA7DF",
+        "#ED4C67",
+        "#F79F1F",
+        "#A3CB38",
+        "#1289A7",
+        "#D980FA",
+        "#B53471",
+        "#EE5A24",
+        "#009432",
+        "#0652DD",
+        "#9980FA",
+        "#833471",
+      ];
 
-        function getRandomColor() {
-            return baseColors[Math.floor(Math.random() * baseColors.length)];
-        }
+      function getRandomColor() {
+        return baseColors[Math.floor(Math.random() * baseColors.length)];
+      }
 
-        function setColorToCells() {
-            let cells = document.querySelectorAll(".cell");
-            cells.forEach(cell => {
-                cell.style.backgroundColor = getRandomColor();
-            });
-        }
-
-        setColorToCells();
-
-        setInterval(setColorToCells, 2000);
-
-        let messages = ["Are you paying attention?", "What if I told you the Matrix was real?", "You need to take the red Pill"];
-        
-        var typed = new Typed('#typed-text', {
-            strings: messages,
-            typeSpeed: 50,
-            backSpeed: 50,
-            backDelay: 100,
-            fadeOut: true,
-            loop: true,
+      function setColorToCells() {
+        let cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+          cell.style.backgroundColor = getRandomColor();
         });
+      }
+
+      setColorToCells();
+
+      setInterval(setColorToCells, 2000);
+
+      let messages = [
+        "Are you paying attention?",
+        "What if I told you the Matrix was real?",
+        "You need to take the red Pill",
+      ];
+
+      var typed = new Typed("#typed-text", {
+        strings: messages,
+        typeSpeed: 0,
+        backSpeed: 0,
+        backDelay: 2000,
+        fadeOut: true,
+        loop: true,
+      });
+
+      console.log(
+        `%c
+  ██████╗ ███████╗
+  ██╔══██╗██╔════╝
+  ██████╔╝███████╗
+  ██╔═══╝ ╚════██║
+  ██║     ███████║
+  ╚═╝     ╚══════╝
+
+  Connect with me on Instagram: https://www.instagram.com/sourcegatekeeper/
+  `,
+        "font-family:monospace"
+      );
     </script>
-</body>
+  </body>
 </html>
