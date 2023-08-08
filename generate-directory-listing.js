@@ -57,7 +57,7 @@ const htmlTemplate = `
 </head>
 <body class="bg-gray-100 h-screen font-sans">
     <div class="container mx-auto p-8">
-        <h1 class="text-4xl mb-8">Directory Listing</h1>
+        <h1 class="text-4xl mb-8">Sourcegate Sketches</h1>
         <input id="search" onkeyup="filterItems()" type="text" placeholder="Search" autocomplete="off" class="p-2 mb-4 w-full border rounded">
         <ul id="files" class="bg-white p-4 rounded shadow-lg">
             ${listItems}
