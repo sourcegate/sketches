@@ -19,5 +19,6 @@
   },
   "scripts": {
     "build": "npm run predeploy"
-  }
+  },
+  "routes": [{ "src": "/$", "dest": "/index.html" }]
 }

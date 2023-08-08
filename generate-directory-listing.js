@@ -18,10 +18,8 @@ const exclusions = [
 // Read the contents of the root directory
 const items = fs.readdirSync(rootDir);
 
-// Generate the list items for the HTML
 let listItems = items
   .filter((item) => {
-    // Exclude specific files/directories and only include directories
     let stats = fs.statSync(path.join(rootDir, item));
     return stats.isDirectory() && !exclusions.includes(item);
   })
