@@ -1,11 +1,3 @@
 {
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    }
-  },
-  "scripts": {
-    "build": "npm run predeploy"
-  },
-  "routes": [{ "src": "/(.*)", "dest": "/$1" }]
+  "routes": [{ "src": "^/$", "dest": "/index.html" }]
 }
