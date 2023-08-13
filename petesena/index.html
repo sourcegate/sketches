@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/petesena/" />
     <title>PETESENA - Maker. Marketer. Entrepreneur.</title>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/scrambling-text/dist/scrambling-text.css"
-    />
+
     <style>
       @font-face {
         font-family: "PPAir-ExtraLight";
         src: url("./fonts/PPAir-ExtraLight.woff2") format("truetype");
       }
+
       @font-face {
         font-family: "PPNeueMontreal-Book";
         src: url("./fonts/PPNeueMontreal-Book.woff2") format("truetype");
@@ -67,23 +65,46 @@
         h1 {
           font-size: 10vw;
         }
+
         h3 {
           font-size: 4vw;
         }
       }
     </style>
   </head>
+
   <body>
     <canvas id="canvas1"></canvas>
     <h1 data-scrambling>PETESENA</h1>
-    <h3 data-scrambling>Maker. <br />Marketer. <br />Entrepreneur.</h3>
-    <script src="https://cdn.jsdelivr.net/npm/scrambling-text@1.0.2/dist/scrambling-text.min.js"></script>
+    <h3 data-scrambling>
+      Maker. <br />
+      Marketer. <br />
+      Entrepreneur.
+    </h3>
+
     <script>
+      // Scrambling effect
+      const elements = document.querySelectorAll("[data-scrambling]");
+      const scramblingTexts = [];
+
+      elements.forEach((el) => {
+        const st = new ScramblingText(el);
+        scramblingTexts.push(st);
+      });
+
+      function applyScrambling() {
+        scramblingTexts.forEach((st) => st.scramble());
+      }
+
+      applyScrambling(); // Run once on load
+      setInterval(applyScrambling, 20000); // Repeat every 20 seconds
+
       const canvas = document.getElementById("canvas1");
       const ctx = canvas.getContext("2d");
       canvas.width = innerWidth;
       canvas.height = innerHeight;
       const particlesArray = [];
+
       let mappedImage = [];
       const numberOfRows = 100;
       const numberOfColumns = 150;
@@ -124,78 +145,57 @@
         particlesArray.length = 0;
         for (let y = 0; y < numberOfRows; y++) {
           for (let x = 0; x < numberOfColumns; x++) {
-            let brightness = mappedImage[y][x][1];
-            let cell = mappedImage[y][x][0];
-            const numberOfParticles = brightness * 1.5;
-            for (let i = 0; i < numberOfParticles; i++) {
-              let particle = new Particle(cell);
-              particlesArray.push(particle);
-            }
+            const cellData = mappedImage[y][x];
+            const x2 = cellData[0][0];
+            const y2 = cellData[0][1];
+            const brightness = cellData[1] > 1 ? 1 : cellData[1];
+            const size = brightness * 2;
+            const particle = new Particle(x2, y2, size, x2, y2, brightness);
+            particlesArray.push(particle);
           }
         }
       }
 
       function animateParticles() {
         ctx.globalAlpha = 0.05;
-        ctx.fillStyle = "rgb(0, 0, 0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 0.2;
         for (let i = 0; i < particlesArray.length; i++) {
           particlesArray[i].update();
-          ctx.globalAlpha = particlesArray[i].speed * 0.3;
-          ctx.fillStyle = particlesArray[i].color;
-          ctx.beginPath();
-          ctx.arc(
-            particlesArray[i].x,
-            particlesArray[i].y,
-            particlesArray[i].size,
-            0,
-            Math.PI * 2
-          );
-          ctx.closePath();
-          ctx.fill();
+          ctx.globalAlpha = particlesArray[i].brightness;
+          particlesArray[i].draw();
         }
         requestAnimationFrame(animateParticles);
       }
 
-      function Particle(cell) {
-        this.size = (Math.random() * cellWidth) / 10;
-        this.x = cell[0];
-        this.y = canvas.height;
-        this.speed = Math.random() * 5 + 1;
-        this.velocity = Math.random() * 0.5;
-        this.angle = Math.PI / 2;
-        this.spin = Math.random() < 0.5 ? -1 : 1;
-        this.color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(
-          Math.random() * 255
-        )}, ${Math.floor(Math.random() * 255)})`;
-      }
-
-      Particle.prototype.update = function () {
-        this.angle += this.spin * 0.01;
-        this.size = (Math.random() * cellWidth) / 10;
-        this.x += Math.cos(this.angle) * this.velocity;
-        this.y -= this.speed;
-        if (this.y <= 0 - this.size) {
-          this.y = canvas.height + this.size;
-          this.x = cell[0];
+      class Particle {
+        constructor(x, y, size, baseX, baseY, brightness) {
+          this.x = x;
+          this.y = y;
+          this.size = size;
+          this.baseX = baseX;
+          this.baseY = baseY;
+          this.brightness = brightness;
+          this.speedX = 0;
+          this.speedY = 0;
+          this.drag = 0.97;
         }
-      };
 
-      // Scrambling effect
-      const elements = document.querySelectorAll("[data-scrambling]");
-      const scramblingTexts = [];
+        update() {
+          this.speedX *= this.drag;
+          this.y += this.speedY;
+          this.size *= this.drag;
+        }
 
-      elements.forEach((el) => {
-        const st = new ScramblingText(el);
-        scramblingTexts.push(st);
-      });
-
-      function applyScrambling() {
-        scramblingTexts.forEach((st) => st.scramble());
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = "white";
+          ctx.fill();
+          ctx.closePath();
+        }
       }
-
-      applyScrambling(); // Run once on load
-      setInterval(applyScrambling, 20000); // Repeat every 20 seconds
     </script>
+    <script src="./ScrambleText.min.js" defer></script>
   </body>
 </html>
