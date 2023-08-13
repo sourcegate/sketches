@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/petesena/" />
     <title>PETESENA - Maker. Marketer. Entrepreneur.</title>
-
     <style>
       @font-face {
         font-family: "PPAir-ExtraLight";
         src: url("./fonts/PPAir-ExtraLight.woff2") format("truetype");
       }
-
       @font-face {
         font-family: "PPNeueMontreal-Book";
         src: url("./fonts/PPNeueMontreal-Book.woff2") format("truetype");
@@ -39,12 +37,12 @@
         position: absolute;
         top: 0;
         left: 0;
-        font-size: 6vw;
+        font-size: 8vw;
         letter-spacing: 2px;
         color: white;
         font-family: "PPNeueMontreal-Book", sans-serif;
         line-height: 1;
-        padding: 1vw;
+        padding: 2vw;
         margin: 0;
         z-index: 2;
         white-space: nowrap;
@@ -54,65 +52,45 @@
 
       h3 {
         position: absolute;
-        bottom: 2vw;
-        right: 2vw;
-        font-size: 2vw;
+        bottom: 4vw;
+        right: 4vw;
+        font-size: 3vw;
         color: white;
         font-family: "PPAir-ExtraLight", sans-serif;
       }
 
       @media only screen and (max-width: 600px) {
         h1 {
-          font-size: 10vw;
+          font-size: 12vw;
+          padding: 4vw;
         }
 
         h3 {
-          font-size: 4vw;
+          font-size: 5vw;
+          bottom: 6vw;
+          right: 6vw;
         }
       }
     </style>
   </head>
-
   <body>
     <canvas id="canvas1"></canvas>
-    <h1 data-scrambling>PETESENA</h1>
-    <h3 data-scrambling>
-      Maker. <br />
-      Marketer. <br />
-      Entrepreneur.
-    </h3>
-
+    <h1>PETESENA</h1>
+    <h3>Maker. <br />Marketer. <br />Entrepreneur.</h3>
     <script>
-      // Scrambling effect
-      const elements = document.querySelectorAll("[data-scrambling]");
-      const scramblingTexts = [];
-
-      elements.forEach((el) => {
-        const st = new ScramblingText(el);
-        scramblingTexts.push(st);
-      });
-
-      function applyScrambling() {
-        scramblingTexts.forEach((st) => st.scramble());
-      }
-
-      applyScrambling(); // Run once on load
-      setInterval(applyScrambling, 20000); // Repeat every 20 seconds
-
       const canvas = document.getElementById("canvas1");
       const ctx = canvas.getContext("2d");
       canvas.width = innerWidth;
       canvas.height = innerHeight;
       const particlesArray = [];
-
+      const blueStreamParticlesArray = [];
       let mappedImage = [];
       const numberOfRows = 100;
       const numberOfColumns = 150;
-
       const image = new Image();
       image.src = "./img/petehead.png";
 
-      image.onload = () => {
+      image.onload = function () {
         ctx.drawImage(image, 0, 0, numberOfColumns, numberOfRows);
         const pixels = ctx.getImageData(0, 0, numberOfColumns, numberOfRows);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -145,57 +123,103 @@
         particlesArray.length = 0;
         for (let y = 0; y < numberOfRows; y++) {
           for (let x = 0; x < numberOfColumns; x++) {
-            const cellData = mappedImage[y][x];
-            const x2 = cellData[0][0];
-            const y2 = cellData[0][1];
-            const brightness = cellData[1] > 1 ? 1 : cellData[1];
-            const size = brightness * 2;
-            const particle = new Particle(x2, y2, size, x2, y2, brightness);
-            particlesArray.push(particle);
+            let brightness = mappedImage[y][x][1];
+            let cell = mappedImage[y][x][0];
+            const numberOfParticles = brightness * 1.5;
+            for (let i = 0; i < numberOfParticles; i++) {
+              let particle = new Particle(cell);
+              particlesArray.push(particle);
+            }
+          }
+        }
+      }
+
+      class Particle {
+        constructor(cell) {
+          this.x = cell[0];
+          this.y = cell[1];
+          this.size = Math.random() * 1.5 + 0.5;
+          this.speedX = Math.random() * 1 - 0.5;
+          this.speedY = Math.random() * 1 - 0.5;
+          this.opacity = 0.05 + Math.random() * 0.5;
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.globalAlpha = this.opacity;
+          ctx.fillStyle = "white";
+          ctx.moveTo(this.x, this.y);
+          ctx.lineTo(this.x + this.size, this.y);
+          ctx.lineTo(this.x + this.size / 2, this.y + this.size);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.size > 0.2) this.size -= 0.1;
+        }
+      }
+
+      class BlueStreamParticle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = 0;
+          this.size = Math.random() * 3 + 1;
+          this.speedY = Math.random() * 3 + 1;
+          this.color = "blue";
+        }
+
+        update() {
+          this.y += this.speedY;
+        }
+
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function handleBlueStreamParticles() {
+        blueStreamParticlesArray.unshift(new BlueStreamParticle());
+        for (let i = 0; i < blueStreamParticlesArray.length; i++) {
+          blueStreamParticlesArray[i].update();
+          blueStreamParticlesArray[i].draw();
+
+          if (blueStreamParticlesArray[i].y > canvas.height) {
+            blueStreamParticlesArray.splice(i, 1);
+            i--;
           }
         }
       }
 
       function animateParticles() {
         ctx.globalAlpha = 0.05;
+        ctx.fillStyle = "rgb(0, 0, 0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.globalAlpha = 0.2;
         for (let i = 0; i < particlesArray.length; i++) {
           particlesArray[i].update();
-          ctx.globalAlpha = particlesArray[i].brightness;
+          ctx.globalAlpha = particlesArray[i].opacity;
           particlesArray[i].draw();
         }
+        handleBlueStreamParticles();
         requestAnimationFrame(animateParticles);
       }
 
-      class Particle {
-        constructor(x, y, size, baseX, baseY, brightness) {
-          this.x = x;
-          this.y = y;
-          this.size = size;
-          this.baseX = baseX;
-          this.baseY = baseY;
-          this.brightness = brightness;
-          this.speedX = 0;
-          this.speedY = 0;
-          this.drag = 0.97;
-        }
+      document.addEventListener("mousemove", function (event) {
+        mouseX = event.x;
+        mouseY = event.y;
+        ctx.drawImage(image, mouseX - 50, mouseY - 75, 100, 150);
+      });
 
-        update() {
-          this.speedX *= this.drag;
-          this.y += this.speedY;
-          this.size *= this.drag;
-        }
-
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fillStyle = "white";
-          ctx.fill();
-          ctx.closePath();
-        }
-      }
+      document.addEventListener("touchmove", function (event) {
+        mouseX = event.touches[0].clientX;
+        mouseY = event.touches[0].clientY;
+        ctx.drawImage(image, mouseX - 50, mouseY - 75, 100, 150);
+      });
     </script>
-    <script src="./ScrambleText.min.js" defer></script>
   </body>
 </html>
