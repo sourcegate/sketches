@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base href="flowfield-vanilla-PS" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <base href="/flowtext-particles" />
+    <canvas id="canvas1"></canvas>
+
+    <title>Particles with lil-gui</title>
+    <script src="https://cdn.jsdelivr.net/npm/lil-gui@0.18.2/dist/lil-gui.umd.min.js"></script>
+    <title>Flow Text Particle PS experiment</title>
+
+    <style>
+      @font-face {
+        font-family: "PPNeueMontreal-Book";
+        src: url("./fonts/PPNeueMontreal-Book.woff2") format("truetype");
+        font-weight: 100;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      canvas {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        font-family: "PPNeueMontreal-Book";
+        background: black;
+      }
+      input {
+        position: absolute;
+        z-index: 100;
+        top: 5%;
+        left: 5%;
+        margin: 0 auto;
+
+        text-align: center;
+        width: 50%;
+        background-color: none;
+      }
+      a {
+        color: white;
+        position: absolute;
+        bottom: 50px;
+        left: 20px;
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas1"></canvas>
+    <input
+      type="text"
+      id="textInput"
+      placeholder="TYPE something here"
+      value="MAKER"
+    />
+
+    <script src="./script.js"></script>
+  </body>
+</html>
