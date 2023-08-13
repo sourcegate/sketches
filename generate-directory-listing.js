@@ -1,10 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-// Define the root directory path (assuming the script is run from the root directory)
 const rootDir = __dirname;
 
-// List of items to exclude
 const exclusions = [
   ".git",
   ".DS_Store",
@@ -16,16 +14,22 @@ const exclusions = [
   ".vercel",
 ];
 
-// Read the contents of the root directory
 const items = fs.readdirSync(rootDir);
 
 let listItems = items
-  .filter((item) => {
-    let stats = fs.statSync(path.join(rootDir, item));
-    return stats.isDirectory() && !exclusions.includes(item);
-  })
   .map((item) => {
-    return `<li class="mb-2"><a href="/${item}" class="text-blue-500 hover:text-blue-700" title="${item}">${item}</a></li>`;
+    let itemPath = path.join(rootDir, item);
+    let stats = fs.statSync(itemPath);
+    return {
+      name: item,
+      isDirectory: stats.isDirectory(),
+      modifiedTime: stats.mtime.getTime(),
+    };
+  })
+  .filter((item) => item.isDirectory && !exclusions.includes(item.name))
+  .sort((a, b) => b.modifiedTime - a.modifiedTime) // Sort in descending order
+  .map((item) => {
+    return `<li class="mb-2"><a href="/${item.name}" class="text-blue-500 hover:text-blue-700" title="${item.name}">${item.name}</a></li>`;
   })
   .join("\n");
 
@@ -34,13 +38,10 @@ const htmlTemplate = `
 <html>
 <head>
     <title>Sourcegate Sketches</title>
-   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-     <link href="/dist/output.css" rel="stylesheet">
+    <link href="/dist/output.css" rel="stylesheet">
     <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/dist/output.css" rel="stylesheet">
     <script>
         function filterItems() {
             const searchValue = document.getElementById('search').value.toLowerCase();
@@ -68,7 +69,6 @@ const htmlTemplate = `
 </html>
 `;
 
-// Write the generated HTML to index.html in the root directory
 fs.writeFileSync(path.join(rootDir, "index.html"), htmlTemplate);
 
 console.log("Directory listing page generated as index.html");
