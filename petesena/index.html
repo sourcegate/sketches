@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/petesena/" />
     <title>PETESENA - Maker. Marketer. Entrepreneur.</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/scrambling-text/dist/scrambling-text.css"
+    />
     <style>
       @font-face {
         font-family: "PPAir-ExtraLight";
@@ -37,12 +41,12 @@
         position: absolute;
         top: 0;
         left: 0;
-        font-size: 8vw;
+        font-size: 6vw;
         letter-spacing: 2px;
         color: white;
         font-family: "PPNeueMontreal-Book", sans-serif;
         line-height: 1;
-        padding: 2vw;
+        padding: 1vw;
         margin: 0;
         z-index: 2;
         white-space: nowrap;
@@ -52,45 +56,42 @@
 
       h3 {
         position: absolute;
-        bottom: 4vw;
-        right: 4vw;
-        font-size: 3vw;
+        bottom: 2vw;
+        right: 2vw;
+        font-size: 2vw;
         color: white;
         font-family: "PPAir-ExtraLight", sans-serif;
       }
 
       @media only screen and (max-width: 600px) {
         h1 {
-          font-size: 12vw;
-          padding: 4vw;
+          font-size: 10vw;
         }
-
         h3 {
-          font-size: 5vw;
-          bottom: 6vw;
-          right: 6vw;
+          font-size: 4vw;
         }
       }
     </style>
   </head>
   <body>
     <canvas id="canvas1"></canvas>
-    <h1>PETESENA</h1>
-    <h3>Maker. <br />Marketer. <br />Entrepreneur.</h3>
+    <h1 data-scrambling>PETESENA</h1>
+    <h3 data-scrambling>Maker. <br />Marketer. <br />Entrepreneur.</h3>
+    <script src="https://cdn.jsdelivr.net/npm/scrambling-text@1.0.2/dist/scrambling-text.min.js"></script>
     <script>
       const canvas = document.getElementById("canvas1");
       const ctx = canvas.getContext("2d");
       canvas.width = innerWidth;
       canvas.height = innerHeight;
       const particlesArray = [];
-      const blueStreamParticlesArray = [];
       let mappedImage = [];
       const numberOfRows = 100;
       const numberOfColumns = 150;
+
       const image = new Image();
       image.src = "./img/petehead.png";
 
-      image.onload = function () {
+      image.onload = () => {
         ctx.drawImage(image, 0, 0, numberOfColumns, numberOfRows);
         const pixels = ctx.getImageData(0, 0, numberOfColumns, numberOfRows);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -134,92 +135,67 @@
         }
       }
 
-      class Particle {
-        constructor(cell) {
-          this.x = cell[0];
-          this.y = cell[1];
-          this.size = Math.random() * 1.5 + 0.5;
-          this.speedX = Math.random() * 1 - 0.5;
-          this.speedY = Math.random() * 1 - 0.5;
-          this.opacity = 0.05 + Math.random() * 0.5;
-        }
-
-        draw() {
-          ctx.beginPath();
-          ctx.globalAlpha = this.opacity;
-          ctx.fillStyle = "white";
-          ctx.moveTo(this.x, this.y);
-          ctx.lineTo(this.x + this.size, this.y);
-          ctx.lineTo(this.x + this.size / 2, this.y + this.size);
-          ctx.closePath();
-          ctx.fill();
-        }
-
-        update() {
-          this.x += this.speedX;
-          this.y += this.speedY;
-          if (this.size > 0.2) this.size -= 0.1;
-        }
-      }
-
-      class BlueStreamParticle {
-        constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = 0;
-          this.size = Math.random() * 3 + 1;
-          this.speedY = Math.random() * 3 + 1;
-          this.color = "blue";
-        }
-
-        update() {
-          this.y += this.speedY;
-        }
-
-        draw() {
-          ctx.fillStyle = this.color;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      function handleBlueStreamParticles() {
-        blueStreamParticlesArray.unshift(new BlueStreamParticle());
-        for (let i = 0; i < blueStreamParticlesArray.length; i++) {
-          blueStreamParticlesArray[i].update();
-          blueStreamParticlesArray[i].draw();
-
-          if (blueStreamParticlesArray[i].y > canvas.height) {
-            blueStreamParticlesArray.splice(i, 1);
-            i--;
-          }
-        }
-      }
-
       function animateParticles() {
         ctx.globalAlpha = 0.05;
         ctx.fillStyle = "rgb(0, 0, 0)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < particlesArray.length; i++) {
           particlesArray[i].update();
-          ctx.globalAlpha = particlesArray[i].opacity;
-          particlesArray[i].draw();
+          ctx.globalAlpha = particlesArray[i].speed * 0.3;
+          ctx.fillStyle = particlesArray[i].color;
+          ctx.beginPath();
+          ctx.arc(
+            particlesArray[i].x,
+            particlesArray[i].y,
+            particlesArray[i].size,
+            0,
+            Math.PI * 2
+          );
+          ctx.closePath();
+          ctx.fill();
         }
-        handleBlueStreamParticles();
         requestAnimationFrame(animateParticles);
       }
 
-      document.addEventListener("mousemove", function (event) {
-        mouseX = event.x;
-        mouseY = event.y;
-        ctx.drawImage(image, mouseX - 50, mouseY - 75, 100, 150);
+      function Particle(cell) {
+        this.size = (Math.random() * cellWidth) / 10;
+        this.x = cell[0];
+        this.y = canvas.height;
+        this.speed = Math.random() * 5 + 1;
+        this.velocity = Math.random() * 0.5;
+        this.angle = Math.PI / 2;
+        this.spin = Math.random() < 0.5 ? -1 : 1;
+        this.color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(
+          Math.random() * 255
+        )}, ${Math.floor(Math.random() * 255)})`;
+      }
+
+      Particle.prototype.update = function () {
+        this.angle += this.spin * 0.01;
+        this.size = (Math.random() * cellWidth) / 10;
+        this.x += Math.cos(this.angle) * this.velocity;
+        this.y -= this.speed;
+        if (this.y <= 0 - this.size) {
+          this.y = canvas.height + this.size;
+          this.x = cell[0];
+        }
+      };
+
+      // Scrambling effect
+      const elements = document.querySelectorAll("[data-scrambling]");
+      const scramblingTexts = [];
+
+      elements.forEach((el) => {
+        const st = new ScramblingText(el);
+        scramblingTexts.push(st);
       });
 
-      document.addEventListener("touchmove", function (event) {
-        mouseX = event.touches[0].clientX;
-        mouseY = event.touches[0].clientY;
-        ctx.drawImage(image, mouseX - 50, mouseY - 75, 100, 150);
-      });
+      function applyScrambling() {
+        scramblingTexts.forEach((st) => st.scramble());
+      }
+
+      applyScrambling(); // Run once on load
+      setInterval(applyScrambling, 20000); // Repeat every 20 seconds
     </script>
   </body>
 </html>
