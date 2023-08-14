@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Stream Text</title>
+    <script src="https://cdn.jsdelivr.net/npm/lil-gui@0.18"></script>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        background-color: #1a1a1a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #text-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .text-stream {
+        position: absolute;
+        white-space: nowrap;
+        font-size: 16px;
+        color: white;
+        left: 100%;
+        mix-blend-mode: difference;
+      }
+
+      @font-face {
+        font-family: "PPAir-SemiBoldMono";
+        src: url("./fonts/PPAir-SemiBoldMono.woff2") format("truetype");
+      }
+
+      @font-face {
+        font-family: "PPNeueMontreal-Book";
+        src: url("./fonts/PPNeueMontreal-Book.woff2") format("truetype");
+        font-weight: 800;
+      }
+
+      #awesome-display {
+        font-family: PPAir-SemiBoldMono;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 85vw;
+        font-size: 50vh;
+        color: white;
+        z-index: 1;
+        mix-blend-mode: difference;
+        line-height: 0.7;
+        margin-top: 5vw;
+        margin-bottom: 5vw;
+      }
+
+      #awesome-display br {
+        display: block;
+        margin: 0;
+        line-height: 0.1;
+      }
+
+      #awesome-display {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+      }
+
+      #pe,
+      #te {
+        margin: 0;
+        padding: 0;
+      }
+
+      .moving-text {
+        transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        /* ease-out-quint easing for subtle effect */
+        will-change: transform;
+        /* hints the browser to optimize this property for smooth changes */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="awesome-display">
+      <p id="scramble">PE<br />TE</p>
+    </div>
+    <div id="text-container"></div>
+    <script>
+      var GUI = lil.GUI;
+      var gui = new GUI();
+      gui.hide(); // Start with GUI hidden
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "h") {
+          if (gui.domElement.style.display === "none") {
+            gui.show();
+          } else {
+            gui.hide();
+          }
+        }
+      });
+
+      var wordsArray = [
+        "super",
+        "dope",
+        "awesome",
+        "vibes",
+        "dope",
+        "sauce",
+        "stellar",
+        "fantastic",
+        "brilliant",
+        "splendid",
+        "cool",
+        "groovy",
+        "slick",
+        "neat",
+        "swanky",
+        "chic",
+      ];
+      var settings = {
+        speed: 0.001,
+        numWords: 1000,
+        lineHeight: 1,
+        changeColors: function () {
+          const colors = [
+            { text: "#FFFFFF", bg: "#000000" },
+            { text: "#FF0000", bg: "#00FF00" },
+            { text: "#00FF00", bg: "#FF0000" },
+            { text: "#0000FF", bg: "#FFFF00" },
+            { text: "#FFFF00", bg: "#0000FF" },
+            { text: "#FF00FF", bg: "#00FFFF" },
+            { text: "#00FFFF", bg: "#FF00FF" },
+            { text: "#FF4500", bg: "#7FFFD4" },
+            { text: "#7FFF00", bg: "#8B008B" },
+            { text: "#D2691E", bg: "#87CEEB" },
+            { text: "#FFD700", bg: "#9400D3" },
+            { text: "#FF6347", bg: "#20B2AA" }, // Tomato & LightSeaGreen
+            { text: "#32CD32", bg: "#FF69B4" }, // LimeGreen & HotPink
+            { text: "#8A2BE2", bg: "#ADFF2F" }, // BlueViolet & GreenYellow
+            { text: "#FF4500", bg: "#1E90FF" }, // OrangeRed & DodgerBlue
+            { text: "#2E8B57", bg: "#FFA500" }, // SeaGreen & Orange
+            { text: "#4B0082", bg: "#FFDAB9" }, // Indigo & PeachPuff
+            { text: "#8B4513", bg: "#98FB98" }, // SaddleBrown & PaleGreen
+            { text: "#DC143C", bg: "#00FA9A" }, // Crimson & MediumSpringGreen
+            { text: "#B22222", bg: "#00CED1" }, // FireBrick & DarkTurquoise
+            { text: "#2F4F4F", bg: "#F0E68C" }, // DarkSlateGray & Khaki
+            { text: "#800000", bg: "#87CEFA" }, // Maroon & LightSkyBlue
+            { text: "#FFC0CB", bg: "#556B2F" }, // Pink & DarkOliveGreen
+            { text: "#9ACD32", bg: "#800080" }, // YellowGreen & Purple
+            { text: "#FF1493", bg: "#228B22" }, // DeepPink & ForestGreen
+            { text: "#7CFC00", bg: "#BA55D3" }, // LawnGreen & MediumOrchid
+            { text: "#DEB887", bg: "#3CB371" }, // BurlyWood & MediumSeaGreen
+            { text: "#FFA07A", bg: "#4682B4" }, // LightSalmon & SteelBlue
+            { text: "#708090", bg: "#FFDEAD" }, // SlateGray & NavajoWhite
+            { text: "#CD5C5C", bg: "#6A5ACD" }, // IndianRed & SlateBlue
+            { text: "#6B8E23", bg: "#FF4500" }, // OliveDrab & OrangeRed
+          ];
+          const selected = colors[Math.floor(Math.random() * colors.length)];
+          document.body.style.backgroundColor = selected.bg;
+          const texts = document.querySelectorAll(
+            ".text-stream, #awesome-display"
+          );
+          texts.forEach((el) => (el.style.color = selected.text));
+          console.log(
+            `Text Color: ${selected.text}, Background Color: ${selected.bg}`
+          );
+        },
+      };
+      gui
+        .add(settings, "speed", 0.0001, 0.01)
+        .name("Text Speed")
+        .onChange(updateSettings);
+      gui
+        .add(settings, "numWords", 10, 10000)
+        .step(1)
+        .name("Number of Words")
+        .onChange(updateSettings);
+      gui
+        .add(settings, "lineHeight", -0.5, 2.5)
+        .step(0.1)
+        .name("Line Height")
+        .onChange(updateSettings);
+      gui.add(settings, "changeColors").name("Randomize Colors");
+
+      var textContainer = document.getElementById("text-container");
+      var intervalId;
+
+      function createTextStream() {
+        let text = document.createElement("div");
+        text.className = "text-stream";
+        text.innerText =
+          wordsArray[Math.floor(Math.random() * wordsArray.length)];
+        let yPosition = Math.random() * (window.innerHeight - 20);
+        text.style.top = yPosition + "px";
+        text.style.lineHeight = `${settings.lineHeight}`;
+        textContainer.appendChild(text);
+        moveText(text);
+      }
+
+      function moveText(text) {
+        let lastTime = Date.now();
+
+        function animate() {
+          let currentTime = Date.now();
+          let deltaTime = (currentTime - lastTime) / 500;
+          text.style.left =
+            text.offsetLeft - 5 * settings.speed * deltaTime * 500 + "px";
+          if (text.offsetLeft + text.offsetWidth < 0) {
+            textContainer.removeChild(text);
+          } else {
+            requestAnimationFrame(animate);
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+
+      function updateSettings() {
+        clearInterval(intervalId);
+        intervalId = setInterval(
+          createTextStream,
+          100 / (settings.speed * settings.numWords)
+        );
+      }
+
+      updateSettings();
+    </script>
+    <script>
+      (function () {
+        var codeletters = "ABCDEFGHIJ^&*%$@#$!~KLMNOPQRSTUVWXYZ0123456789";
+        var targetElements = ["#scramble"];
+
+        function generateRandomString(length) {
+          var random_text = "";
+          while (random_text.length < length) {
+            random_text += codeletters.charAt(
+              Math.floor(Math.random() * codeletters.length)
+            );
+          }
+          return random_text;
+        }
+
+        function scrambleElement(el) {
+          var originalText = el.innerText;
+          var scrambledText = generateRandomString(originalText.length);
+          el.innerText = scrambledText;
+          var counter = 0;
+          var interval = setInterval(function () {
+            if (counter < originalText.length) {
+              el.innerText =
+                el.innerText.substring(0, counter) +
+                originalText[counter] +
+                generateRandomString(originalText.length - counter - 1);
+              counter++;
+            } else {
+              clearInterval(interval);
+              setTimeout(function () {
+                scrambleElement(el);
+              }, 15000);
+            }
+          }, 100);
+        }
+
+        window.onload = function () {
+          targetElements.forEach(function (selector) {
+            var el = document.querySelector(selector);
+            if (el) {
+              scrambleElement(el);
+            }
+          });
+        };
+      })();
+    </script>
+  </body>
+</html>

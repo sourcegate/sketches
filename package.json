@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "live-server",
+    "start": "live-server & open /Applications/Simulator.app && sleep 5 && xcrun simctl openurl booted http://localhost:8080",
     "predeploy": "node generate-directory-listing.js",
     "build": "npm run predeploy"
   },
