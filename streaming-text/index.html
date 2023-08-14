@@ -89,11 +89,36 @@
         changeColors: function () {
           const colors = [
             { text: "#FFFFFF", bg: "#000000" },
-            { text: "#000000", bg: "#FFFFFF" },
             { text: "#FF0000", bg: "#00FF00" },
             { text: "#00FF00", bg: "#FF0000" },
             { text: "#0000FF", bg: "#FFFF00" },
             { text: "#FFFF00", bg: "#0000FF" },
+            { text: "#FF00FF", bg: "#00FFFF" },
+            { text: "#00FFFF", bg: "#FF00FF" },
+            { text: "#FF4500", bg: "#7FFFD4" },
+            { text: "#7FFF00", bg: "#8B008B" },
+            { text: "#D2691E", bg: "#87CEEB" },
+            { text: "#FFD700", bg: "#9400D3" },
+            { text: "#FF6347", bg: "#20B2AA" }, // Tomato & LightSeaGreen
+            { text: "#32CD32", bg: "#FF69B4" }, // LimeGreen & HotPink
+            { text: "#8A2BE2", bg: "#ADFF2F" }, // BlueViolet & GreenYellow
+            { text: "#FF4500", bg: "#1E90FF" }, // OrangeRed & DodgerBlue
+            { text: "#2E8B57", bg: "#FFA500" }, // SeaGreen & Orange
+            { text: "#4B0082", bg: "#FFDAB9" }, // Indigo & PeachPuff
+            { text: "#8B4513", bg: "#98FB98" }, // SaddleBrown & PaleGreen
+            { text: "#DC143C", bg: "#00FA9A" }, // Crimson & MediumSpringGreen
+            { text: "#B22222", bg: "#00CED1" }, // FireBrick & DarkTurquoise
+            { text: "#2F4F4F", bg: "#F0E68C" }, // DarkSlateGray & Khaki
+            { text: "#800000", bg: "#87CEFA" }, // Maroon & LightSkyBlue
+            { text: "#FFC0CB", bg: "#556B2F" }, // Pink & DarkOliveGreen
+            { text: "#9ACD32", bg: "#800080" }, // YellowGreen & Purple
+            { text: "#FF1493", bg: "#228B22" }, // DeepPink & ForestGreen
+            { text: "#7CFC00", bg: "#BA55D3" }, // LawnGreen & MediumOrchid
+            { text: "#DEB887", bg: "#3CB371" }, // BurlyWood & MediumSeaGreen
+            { text: "#FFA07A", bg: "#4682B4" }, // LightSalmon & SteelBlue
+            { text: "#708090", bg: "#FFDEAD" }, // SlateGray & NavajoWhite
+            { text: "#CD5C5C", bg: "#6A5ACD" }, // IndianRed & SlateBlue
+            { text: "#6B8E23", bg: "#FF4500" }, // OliveDrab & OrangeRed
           ];
           const selected = colors[Math.floor(Math.random() * colors.length)];
           document.body.style.backgroundColor = selected.bg;
@@ -101,6 +126,9 @@
             ".text-stream, #awesome-display"
           );
           texts.forEach((el) => (el.style.color = selected.text));
+          console.log(
+            `Text Color: ${selected.text}, Background Color: ${selected.bg}`
+          );
         },
       };
 
