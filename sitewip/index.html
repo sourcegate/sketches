@@ -7,6 +7,7 @@
     <title>Pete Sena WIP</title>
     <!-- <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script> -->
+    <!-- Refactor with tailwind shit later. get layout knocked up and then break into react components-->
 
     <style>
       @font-face {
@@ -28,7 +29,7 @@
       body {
         padding: 0;
         margin: 0;
-        /* This ensures the body doesn't overflow the viewport width */
+
         overflow-x: hidden;
       }
       .row {
@@ -64,20 +65,20 @@
       .btn:hover {
         box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.25),
           inset 0px 0px 5px rgba(255, 255, 255);
-        transform: scale(1.05); /* scales the button up by 5% */
+        transform: scale(1.05);
         color: white;
-        background-color: #006eff; /* changes the background color; adjust as needed */
+        background-color: #006eff;
       }
 
       .list {
         list-style: none;
         border-top: 1px solid grey;
 
-        padding: 1.5em; /* Adjust this for more or less spacing around items */
-        margin-bottom: 10px; /* Spacing between list items */
+        padding: 1.5em;
+        margin-bottom: 10px;
         display: flex;
         justify-content: space-between;
-        align-items: center; /* if you want vertical alignment too */
+        align-items: center;
         text-align: left;
       }
       .item {
@@ -129,7 +130,6 @@
   </head>
   <body>
     <header class="hero">
-      <!-- Header content goes here -->
       <h1 class="hero">Pete Sena</h1>
       <h2 class="subhead">Maker. Marketer. Entrepreneur.</h2>
       <p class="copy">
@@ -142,8 +142,6 @@
     </header>
 
     <main>
-      <!-- Main content goes here -->
-
       <ul>
         <li class="list">
           <p class="item">Something item one</p>
@@ -177,8 +175,6 @@
       </ul>
     </main>
 
-    <footer>
-      <!-- Footer content goes here -->
-    </footer>
+    <footer>Put dat footy in yoooo</footer>
   </body>
 </html>
