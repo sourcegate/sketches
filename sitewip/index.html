@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/sitewip/" />
+    <title>Pete Sena WIP</title>
+    <!-- <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script> -->
+
+    <style>
+      html {
+      }
+      body {
+        font-family: PP Editorial New;
+
+        padding: 0;
+        margin: 0;
+        /* This ensures the body doesn't overflow the viewport width */
+        overflow-x: hidden;
+      }
+      .row {
+        width: 100vw;
+        padding: 10px;
+      }
+
+      .btn {
+        color: #000;
+        text-align: center;
+        font-family: PP Editorial New;
+        width: 5.125rem;
+        height: 2.625rem;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.02rem;
+        height: fit-content;
+
+        border-radius: 4rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.5);
+        box-shadow: 0px 6px 32px 0px rgba(0, 0, 0, 0.15);
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease-in-out;
+      }
+
+      ul {
+        padding-left: 0;
+        margin: 0;
+      }
+      .btn:hover {
+        box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.25),
+          inset 0px 0px 5px rgba(255, 255, 255);
+        transform: scale(1.05); /* scales the button up by 5% */
+        color: white;
+        background-color: #006eff; /* changes the background color; adjust as needed */
+      }
+
+      .list {
+        list-style: none;
+        border-top: 1px solid grey;
+
+        padding: 1.5em; /* Adjust this for more or less spacing around items */
+        margin-bottom: 10px; /* Spacing between list items */
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* if you want vertical alignment too */
+        text-align: left;
+      }
+      .item {
+        display: inline;
+        flex: 1;
+        margin-right: 20px;
+        border-top: 1px;
+        text-align: left;
+      }
+      .desc {
+        display: inline;
+        flex: 2;
+        text-align: left;
+        margin-right: 20px;
+        text-transform: capitalize;
+        line-height: 1.5;
+      }
+
+      @font-face {
+        font-family: "PPNeueMontreal-Book";
+        src: url("./fonts/PPNeueMontreal-Book.woff2") format("truetype");
+
+        font-weight: 800;
+      }
+
+      @font-face {
+        font-family: "PPAir-ExtraLight";
+        src: url("./fonts/PPAir-ExtraLight.woff2") format("truetype");
+      }
+
+      @font-face {
+        font-family: "PPEditorialNew";
+        src: url("./fonts/PPEditorialNew-Regular.woff2") format("truetype");
+      }
+
+      .hero {
+        text-transform: uppercase;
+        font-family: PPNeueMontreal-Book;
+        color: #232222;
+        text-align: center;
+        font-size: 14.4vw;
+        padding: 10px;
+        margin: 0;
+      }
+      .subhead {
+        font-family: PPAIR-Extralight;
+        font-size: 0.25em;
+      }
+
+      p {
+        font-size: 18px;
+      }
+
+      .copy {
+        font-family: PPNeueMontreal-Book;
+        text-transform: none;
+        line-height: 1.5;
+      }
+      .hero p {
+        text-align: center;
+        margin: 0 auto;
+        max-width: 50%;
+        margin-bottom: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <!-- Header content goes here -->
+      <h1 class="hero">Pete Sena</h1>
+      <h2 class="subhead">Maker. Marketer. Entrepreneur.</h2>
+      <p class="copy">
+        I believe creativity and curiosity is broken. I'm an Entrepreneur and
+        business builder. But while my skills are best suited coaching and
+        building teams i believe that the saw that goes unsharpened gets rusty.
+        So this site is a place to house my experiments and ideas. They are
+        sketches and designed to be rough explorations.
+      </p>
+    </header>
+
+    <main>
+      <!-- Main content goes here -->
+
+      <ul>
+        <li class="list">
+          <p class="item">Something item one</p>
+          <p class="desc">Some lorum ipsum dolar blah blah template</p>
+          <a href="#"><button class="btn">Visit ↗</button></a>
+        </li>
+        <li class="list">
+          <p class="item">Another damn list element</p>
+          <p class="desc">Make this a fucking component you pleb</p>
+          <a href="#"><button class="btn">Visit ↗</button></a>
+        </li>
+        <li class="list">
+          <p class="item">More lists and stuff</p>
+          <p class="desc">one sentence.</p>
+          <a href="#"><button class="btn">Visit ↗</button></a>
+        </li>
+        <li class="list">
+          <p class="item">More lists and stuff</p>
+          <p class="desc">
+            one sentence but it goes a few rows and this better look dope
+            because aint nobody got time for whack looking and all dat fred
+            again shit.
+          </p>
+          <a href="#"><button class="btn">Visit ↗</button></a>
+        </li>
+        <li class="list">
+          <p class="item">More lists and stuff</p>
+          <p class="desc">one sentence.</p>
+          <a href="#"><button class="btn">Visit ↗</button></a>
+        </li>
+      </ul>
+    </main>
+
+    <footer>
+      <!-- Footer content goes here -->
+    </footer>
+  </body>
+</html>
