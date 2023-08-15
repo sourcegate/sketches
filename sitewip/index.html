@@ -9,11 +9,23 @@
     <script src="script.js" defer></script> -->
 
     <style>
-      html {
+      @font-face {
+        font-family: "PPNeueMontreal-Book";
+        src: url("./fonts/PPNeueMontreal-Book.woff2") format("truetype");
+
+        font-weight: 800;
+      }
+
+      @font-face {
+        font-family: "PPAir-ExtraLight";
+        src: url("./fonts/PPAir-ExtraLight.woff2") format("truetype");
+      }
+
+      @font-face {
+        font-family: "PPEditorialNew";
+        src: url("./fonts/PPEditorialNew-Regular.woff2") format("truetype");
       }
       body {
-        font-family: PP Editorial New;
-
         padding: 0;
         margin: 0;
         /* This ensures the body doesn't overflow the viewport width */
@@ -27,7 +39,7 @@
       .btn {
         color: #000;
         text-align: center;
-        font-family: PP Editorial New;
+        font-family: PPEditorialNew;
         width: 5.125rem;
         height: 2.625rem;
         font-size: 0.875rem;
@@ -84,23 +96,6 @@
         line-height: 1.5;
       }
 
-      @font-face {
-        font-family: "PPNeueMontreal-Book";
-        src: url("./fonts/PPNeueMontreal-Book.woff2") format("truetype");
-
-        font-weight: 800;
-      }
-
-      @font-face {
-        font-family: "PPAir-ExtraLight";
-        src: url("./fonts/PPAir-ExtraLight.woff2") format("truetype");
-      }
-
-      @font-face {
-        font-family: "PPEditorialNew";
-        src: url("./fonts/PPEditorialNew-Regular.woff2") format("truetype");
-      }
-
       .hero {
         text-transform: uppercase;
         font-family: PPNeueMontreal-Book;
@@ -127,7 +122,7 @@
       .hero p {
         text-align: center;
         margin: 0 auto;
-        max-width: 50%;
+        max-width: 75%;
         margin-bottom: 30px;
       }
     </style>
